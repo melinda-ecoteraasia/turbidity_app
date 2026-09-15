@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EcoExposure™ | New Sample</title>
+  <title>EcoExposure™ | New Turbidity Sample</title>
   <style>
     :root {--bg:#f6f8f7;--card:#fff;--text:#1f2933;--muted:#6b7280;--border:#d7ded9;--accent:#0f766e;--accent-dark:#115e59;}
     *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
@@ -20,15 +20,14 @@
     dialog{border:none;border-radius:16px;padding:0;max-width:520px;width:calc(100% - 24px);box-shadow:0 18px 60px rgba(0,0,0,.28)}
     dialog::backdrop{background:rgba(15,23,42,.66)}
     .dialog-inner{padding:16px}.dialog-actions{display:flex;gap:10px}.dialog-actions button{width:auto;flex:1}
-    #qrReader{width:100%;min-height:260px;margin-top:12px}.kit-ok{color:#047857;font-weight:700}.kit-error{color:#b91c1c;font-weight:700}
     .camera-btn{margin-top:0}.camera-note{font-size:.82rem;color:var(--muted);margin-top:7px}
     .captured-label{display:none;margin-top:8px;font-size:.86rem;color:#047857;font-weight:700}
   </style>
 </head>
 <body>
   <header>
-    <h1>New EcoExposure Sample</h1>
-    <p>Enter sample details, add photos, and save your sample.</p>
+    <h1>New Turbidity Sample</h1>
+    <p>Enter turbidity details, add optional photos, and save your sample.</p>
   </header>
 
   <main>
@@ -57,32 +56,29 @@
         <option selected>Other</option>
       </select>
 
-      <label>Kit Verification</label>
-      <button type="button" onclick="scanQRCode()">📷 Scan Kit QR Code</button>
-      <div id="qrStatus" class="info-box">Kit not yet verified.</div>
-
       <button type="button" onclick="captureGPS()">Capture GPS Location</button>
       <div id="gpsStatus" class="info-box">No GPS location captured yet.</div>
 
       <label for="sampleID">Sample ID</label>
       <input id="sampleID" placeholder="Example: Kitchen Tap 01" />
 
-      <label>Capture Stage</label>
+      <label for="sampleVolume">Total Sample Volume (mL)</label>
+      <input id="sampleVolume" type="number" min="0.01" step="0.01" value="400" inputmode="decimal" />
 
-      <label>
-        <input type="radio" name="captureStage" value="pre_reagent">
-        Pre-Reagent
-      </label>
+      <label for="creamerAmount">Creamer Added (µL)</label>
+      <input id="creamerAmount" type="number" min="0" step="0.1" placeholder="Example: 5" inputmode="decimal" />
 
-      <label>
-        <input type="radio" name="captureStage" value="post_reaction">
-        Post-Reaction
-      </label>
+      <label for="meterModel">Turbidity Meter</label>
+      <input id="meterModel" placeholder="Meter make/model (optional)" />
 
-      <label>
-        <input type="radio" name="captureStage" value="other">
-        Other
-      </label>
+      <label for="ntuReading1">Reference Meter Reading 1 (NTU)</label>
+      <input id="ntuReading1" type="number" min="0" step="0.001" inputmode="decimal" />
+
+      <label for="ntuReading2">Reference Meter Reading 2 (NTU)</label>
+      <input id="ntuReading2" type="number" min="0" step="0.001" inputmode="decimal" />
+
+      <label for="ntuReading3">Reference Meter Reading 3 (NTU)</label>
+      <input id="ntuReading3" type="number" min="0" step="0.001" inputmode="decimal" />
 
       <label for="notes">Notes</label>
       <textarea id="notes" placeholder="Sample conditions or visual observations..."></textarea>
@@ -90,34 +86,48 @@
 
     <section>
       <h2>Images</h2>
-      <div class="info-box">Photos must be taken live in the app. Existing photos cannot be selected from the device.</div>
+      <div class="info-box">All seven photo slots are optional. Photos must be taken live in the app.</div>
 
       <div class="image-slot">
-        <strong>Top View - White Background</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('topImage','topPreview','Top View - White Background')">📷 Take Photo</button>
-        <div id="topImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="topPreview" class="preview" alt="Top view preview" />
+        <strong>Top - White</strong>
+        <button class="camera-btn" type="button" onclick="openPhotoCamera('topWhiteImage','topWhitePreview','Top - White')">📷 Take Photo</button>
+        <div id="topWhiteImageCaptured" class="captured-label">✓ Photo captured</div>
+        <img id="topWhitePreview" class="preview" alt="Top white preview" />
       </div>
 
       <div class="image-slot">
-        <strong>Top View – Grid Background</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('topGridImage','topGridPreview','Top View – Grid Background')">📷 Take Photo</button>
-        <div id="topGridImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="topGridPreview" class="preview" alt="Top grid preview" />
+        <strong>Top - White Grid</strong>
+        <button class="camera-btn" type="button" onclick="openPhotoCamera('topWhiteGridImage','topWhiteGridPreview','Top - White Grid')">📷 Take Photo</button>
+        <div id="topWhiteGridImageCaptured" class="captured-label">✓ Photo captured</div>
+        <img id="topWhiteGridPreview" class="preview" alt="Top white grid preview" />
       </div>
 
       <div class="image-slot">
-        <strong>Side View</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('sideImage','sidePreview','Side View')">📷 Take Photo</button>
-        <div id="sideImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="sidePreview" class="preview" alt="Side view preview" />
+        <strong>Top - Blue</strong>
+        <button class="camera-btn" type="button" onclick="openPhotoCamera('topBlueImage','topBluePreview','Top - Blue')">📷 Take Photo</button>
+        <div id="topBlueImageCaptured" class="captured-label">✓ Photo captured</div>
+        <img id="topBluePreview" class="preview" alt="Top blue preview" />
       </div>
 
       <div class="image-slot">
-        <strong>Close-Up</strong>
-        <button class="camera-btn" type="button" onclick="openPhotoCamera('closeUpImage','closeUpPreview','Close-Up')">📷 Take Photo</button>
-        <div id="closeUpImageCaptured" class="captured-label">✓ Photo captured</div>
-        <img id="closeUpPreview" class="preview" alt="Close-up preview" />
+        <strong>Top - Blue Grid</strong>
+        <button class="camera-btn" type="button" onclick="openPhotoCamera('topBlueGridImage','topBlueGridPreview','Top - Blue Grid')">📷 Take Photo</button>
+        <div id="topBlueGridImageCaptured" class="captured-label">✓ Photo captured</div>
+        <img id="topBlueGridPreview" class="preview" alt="Top blue grid preview" />
+      </div>
+
+      <div class="image-slot">
+        <strong>Side - White</strong>
+        <button class="camera-btn" type="button" onclick="openPhotoCamera('sideWhiteImage','sideWhitePreview','Side - White')">📷 Take Photo</button>
+        <div id="sideWhiteImageCaptured" class="captured-label">✓ Photo captured</div>
+        <img id="sideWhitePreview" class="preview" alt="Side white preview" />
+      </div>
+
+      <div class="image-slot">
+        <strong>Side - Blue</strong>
+        <button class="camera-btn" type="button" onclick="openPhotoCamera('sideBlueImage','sideBluePreview','Side - Blue')">📷 Take Photo</button>
+        <div id="sideBlueImageCaptured" class="captured-label">✓ Photo captured</div>
+        <img id="sideBluePreview" class="preview" alt="Side blue preview" />
       </div>
 
       <div class="image-slot">
@@ -149,31 +159,13 @@
     </div>
   </dialog>
 
-  <dialog id="qrDialog">
-    <div class="dialog-inner">
-      <h2>Scan EcoExposure Kit</h2>
-      <div id="qrReader"></div>
-
-      <label for="manualKitCode">Or enter the kit code</label>
-      <input id="manualKitCode" placeholder="EA-KIT-000001" autocomplete="off" />
-
-      <div id="qrDialogStatus" class="status"></div>
-
-      <div class="dialog-actions">
-        <button type="button" onclick="verifyManualKitCode()">Verify Code</button>
-        <button type="button" class="secondary" onclick="closeQRScanner()">Cancel</button>
-      </div>
-    </div>
-  </dialog>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 
   <script>
 	const SUPABASE_URL = "https://qvmgrchkmmezpwhlfxjv.supabase.co";
 	const SUPABASE_KEY = "sb_publishable_3M-2qrVCnjO9XfjsBCUf6g_l1wSuwVu";
-    const STORAGE_BUCKET = "ecotera_asia_intern_bucket_001";
-    const TABLE_NAME = "samples";
+    const STORAGE_BUCKET = "turbidity-images";
+    const TABLE_NAME = "turbidity_samples";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -183,8 +175,6 @@
     let latitude = null,
         longitude = null,
         currentUser = null,
-        currentKit = null,
-        qrScanner = null,
         photoStream = null,
         activePhotoSlot = null,
         activePhotoPreview = null;
@@ -192,10 +182,12 @@
     const capturedPhotos = {};
 
     const imageSlots = {
-      topImage: "top",
-      topGridImage: "top_grid",
-      sideImage: "side",
-      closeUpImage: "closeup",
+      topWhiteImage: "top-white",
+      topWhiteGridImage: "top-white-grid",
+      topBlueImage: "top-blue",
+      topBlueGridImage: "top-blue-grid",
+      sideWhiteImage: "side-white",
+      sideBlueImage: "side-blue",
       otherImage: "other"
     };
 
@@ -208,173 +200,6 @@
       }
 
       currentUser = data.user;
-    }
-
-    async function scanQRCode() {
-      const dialog = document.getElementById("qrDialog");
-
-      document.getElementById("qrDialogStatus").textContent = "";
-      document.getElementById("manualKitCode").value = "";
-
-      dialog.showModal();
-
-      try {
-        qrScanner = new Html5Qrcode("qrReader");
-
-        await qrScanner.start(
-          { facingMode: "environment" },
-          { fps: 10, qrbox: { width: 220, height: 220 } },
-
-          async decodedText => {
-            await verifyKitCode(decodedText);
-
-            if (currentKit) {
-              closeQRScanner();
-            }
-          },
-
-          () => {}
-        );
-      } catch (e) {
-        document.getElementById("qrDialogStatus").textContent =
-          "Camera unavailable. Enter the kit code manually below.";
-      }
-    }
-
-    async function closeQRScanner() {
-      if (qrScanner) {
-        try {
-          if (qrScanner.isScanning) await qrScanner.stop();
-        } catch (e) {}
-
-        try {
-          await qrScanner.clear();
-        } catch (e) {}
-
-        qrScanner = null;
-      }
-
-      document.getElementById("qrDialog").close();
-    }
-
-    async function verifyManualKitCode() {
-      await verifyKitCode(
-        document.getElementById("manualKitCode").value
-      );
-
-      if (currentKit) {
-        await closeQRScanner();
-      }
-    }
-
-    function normalizeKitInput(rawCode) {
-      const raw = String(rawCode || "").trim();
-
-      if (!raw) {
-        return {
-          qrToken: "",
-          manualCode: ""
-        };
-      }
-
-      let qrToken = raw;
-
-      try {
-        const scannedURL = new URL(raw);
-
-        qrToken =
-          scannedURL.searchParams.get("kit") ||
-          scannedURL.searchParams.get("token") ||
-          scannedURL.searchParams.get("qr_token") ||
-          raw;
-      } catch (e) {
-        // The scanned value was not a URL. That is fine.
-      }
-
-      const manualCode = raw
-        .toUpperCase()
-        .replace(/[^A-Z0-9]/g, "");
-
-      return {
-        qrToken: String(qrToken || "").trim(),
-        manualCode
-      };
-    }
-
-    async function verifyKitCode(rawCode) {
-      const input = normalizeKitInput(rawCode);
-
-      const dialogStatus =
-        document.getElementById("qrDialogStatus");
-
-      const pageStatus =
-        document.getElementById("qrStatus");
-
-      currentKit = null;
-
-      if (!input.qrToken && !input.manualCode) {
-        dialogStatus.textContent =
-          "Enter or scan a kit code.";
-        return;
-      }
-
-      dialogStatus.textContent =
-        "Checking kit...";
-
-      const { data, error } =
-        await supabaseClient.rpc(
-          "check_kit_v2",
-          {
-            p_qr_token: input.qrToken,
-            p_manual_code: input.manualCode
-          }
-        );
-
-      if (error) {
-        console.error("Kit verification error:", error);
-
-        dialogStatus.textContent =
-          `Kit check failed: ${error.message}`;
-
-        pageStatus.textContent =
-          "Kit not verified.";
-
-        return;
-      }
-
-      const kit =
-        data && data[0] ? data[0] : null;
-
-      if (!kit) {
-        dialogStatus.textContent =
-          "Kit code not recognized.";
-
-        pageStatus.textContent =
-          "Kit not verified.";
-
-        return;
-      }
-
-      if (
-        kit.kit_status !== "active" ||
-        Number(kit.remaining_samples) <= 0
-      ) {
-        dialogStatus.textContent =
-          "This kit has no submissions remaining. Please scan another QR code to activate a new kit.";
-
-        pageStatus.innerHTML =
-          `<span class="kit-error">${kit.kit_code}: no submissions remaining.</span>`;
-
-        return;
-      }
-
-      currentKit = kit;
-
-      pageStatus.innerHTML =
-        `<span class="kit-ok">Verified: ${kit.kit_code} - ${kit.remaining_samples} submission${Number(kit.remaining_samples) === 1 ? "" : "s"} remaining.</span>`;
-
-      dialogStatus.textContent =
-        "Kit verified.";
     }
 
     function captureGPS() {
@@ -625,6 +450,11 @@
       return path;
     }
 
+    function optionalNumber(id) {
+      const value = document.getElementById(id).value.trim();
+      return value === "" ? null : Number(value);
+    }
+
     async function saveEntry() {
       const status =
         document.getElementById("saveStatus");
@@ -648,28 +478,12 @@
         document.getElementById("sampleID")
           .value.trim();
 
-      const hasImage =
-        Object.keys(imageSlots).some(id => Boolean(capturedPhotos[id]));
-
-      const captureStage =
-        document.querySelector(
-          'input[name="captureStage"]:checked'
-        )?.value || "";
-
-      if (!currentKit) {
-        status.textContent =
-          "Scan and verify a kit QR code before saving.";
-        return;
-      }
-
       if (
         !userName ||
-        !sampleID ||
-        !captureStage ||
-        !hasImage
+        !sampleID
       ) {
         status.textContent =
-          "Required: User Name, Sample ID, Capture Stage, and at least one image.";
+          "Required: User Name and Sample ID. All photos and NTU readings are optional.";
         return;
       }
 
@@ -677,31 +491,43 @@
         status.textContent =
           "Uploading photos...";
 
-        const top_photo =
+        const top_white_photo_path =
           await uploadOneImage(
-            "topImage",
-            "top"
+            "topWhiteImage",
+            "top-white"
           );
 
-        const top_grid_photo =
+        const top_white_grid_photo_path =
           await uploadOneImage(
-            "topGridImage",
-            "top_grid"
+            "topWhiteGridImage",
+            "top-white-grid"
           );
 
-        const side_photo =
+        const top_blue_photo_path =
           await uploadOneImage(
-            "sideImage",
-            "side"
+            "topBlueImage",
+            "top-blue"
           );
 
-        const closeup_photo =
+        const top_blue_grid_photo_path =
           await uploadOneImage(
-            "closeUpImage",
-            "closeup"
+            "topBlueGridImage",
+            "top-blue-grid"
           );
 
-        const other_photo =
+        const side_white_photo_path =
+          await uploadOneImage(
+            "sideWhiteImage",
+            "side-white"
+          );
+
+        const side_blue_photo_path =
+          await uploadOneImage(
+            "sideBlueImage",
+            "side-blue"
+          );
+
+        const other_photo_path =
           await uploadOneImage(
             "otherImage",
             "other"
@@ -710,34 +536,38 @@
         status.textContent =
           "Saving sample...";
 
-        const rpcArgs = {
-          p_kit_id: currentKit.kit_id,
-          p_user_name: userName,
-          p_sample_label: sampleID,
-          p_location:
-            document.getElementById("location")
-              .value.trim(),
-          p_water_type:
-            document.getElementById("waterType")
-              .value,
-          p_latitude: latitude,
-          p_longitude: longitude,
-          p_notes:
-            document.getElementById("notes")
-              .value.trim(),
-          p_top_photo: top_photo,
-          p_side_photo: side_photo,
-          p_closeup_photo: closeup_photo,
-          p_other_photo: other_photo,
-          p_capture_stage: captureStage,
-          p_top_grid_photo: top_grid_photo
+        const sampleRecord = {
+          user_id: currentUser.id,
+          user_name: userName,
+          collector: userName,
+          sample_name: sampleID,
+          location: document.getElementById("location").value.trim(),
+          water_type: document.getElementById("waterType").value,
+          latitude,
+          longitude,
+          assay_time: new Date().toISOString(),
+          sample_volume_ml: Number(document.getElementById("sampleVolume").value),
+          creamer_ul: optionalNumber("creamerAmount"),
+          meter_model: document.getElementById("meterModel").value.trim() || null,
+          ntu_reading_1: optionalNumber("ntuReading1"),
+          ntu_reading_2: optionalNumber("ntuReading2"),
+          ntu_reading_3: optionalNumber("ntuReading3"),
+          top_white_photo_path,
+          top_white_grid_photo_path,
+          top_blue_photo_path,
+          top_blue_grid_photo_path,
+          side_white_photo_path,
+          side_blue_photo_path,
+          other_photo_path,
+          storage_bucket: STORAGE_BUCKET,
+          notes: document.getElementById("notes").value.trim(),
+          status: "completed",
+          completed_at: new Date().toISOString()
         };
 
-        const { data, error } =
-          await supabaseClient.rpc(
-            "save_sample_with_kit",
-            rpcArgs
-          );
+        const { error } = await supabaseClient
+          .from(TABLE_NAME)
+          .insert(sampleRecord);
 
         if (error) {
           throw new Error(
@@ -745,15 +575,8 @@
           );
         }
 
-        const result =
-          data && data[0]
-            ? data[0]
-            : null;
-
         status.textContent =
-          `✅ Sample saved: ${sampleID}. ${result ? result.remaining_samples : ""} kit submission${result && result.remaining_samples === 1 ? "" : "s"} remaining.`;
-
-        currentKit = null;
+          `✅ Turbidity sample saved: ${sampleID}.`;
 
         clearDraft(false);
 
@@ -768,6 +591,11 @@
         "userName",
         "location",
         "sampleID",
+        "creamerAmount",
+        "meterModel",
+        "ntuReading1",
+        "ntuReading2",
+        "ntuReading3",
         "notes"
       ].forEach(
         id =>
@@ -777,11 +605,15 @@
       document.getElementById("waterType").value =
         "Other";
 
+      document.getElementById("sampleVolume").value = "400";
+
       Object.entries({
-        topImage: "topPreview",
-        topGridImage: "topGridPreview",
-        sideImage: "sidePreview",
-        closeUpImage: "closeUpPreview",
+        topWhiteImage: "topWhitePreview",
+        topWhiteGridImage: "topWhiteGridPreview",
+        topBlueImage: "topBluePreview",
+        topBlueGridImage: "topBlueGridPreview",
+        sideWhiteImage: "sideWhitePreview",
+        sideBlueImage: "sideBluePreview",
         otherImage: "otherPreview"
       }).forEach(([i,p]) => {
         delete capturedPhotos[i];
@@ -801,13 +633,9 @@
 
       latitude = null;
       longitude = null;
-      currentKit = null;
 
       document.getElementById("gpsStatus").textContent =
         "No GPS location captured yet.";
-
-      document.getElementById("qrStatus").textContent =
-        "Kit not yet verified.";
 
       if (updateStatus) {
         document.getElementById("saveStatus").textContent =
